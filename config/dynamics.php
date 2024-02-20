@@ -22,6 +22,12 @@ return [
             'password' => env('DYNAMICS_PASSWORD'),
             'auth' => env('DYNAMICS_AUTH', 'ntlm'),
             'page_size' => env('DYNAMICS_PAGE_SIZE', 1000),
+            'oauth2' => [
+                'redirect_uri' => env('DYNAMICS_RESOURCE'),
+                'client_id' => env('DYNAMICS_CLIENT_ID'),
+                'tenant_id' => env('DYNAMICS_TENANT_ID'),
+                'resource' => env('DYNAMICS_RESOURCE'),
+            ],
             'options' => [
                 'connect_timeout' => 5,
             ],
