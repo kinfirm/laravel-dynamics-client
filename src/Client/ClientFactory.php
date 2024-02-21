@@ -32,7 +32,7 @@ class ClientFactory
         }
         $this
             ->options($config['options'])
-            ->auth($config['username'], $config['password'], $config['auth'], $config['oauth2']??[])
+            ->auth($config['oauth2']['client_id'], $config['oauth2']['client_secret'], $config['auth'], $config['oauth2']??[])
             ->header('Accept', 'application/json')
             ->header('Content-Type', 'application/json');
     }
@@ -116,18 +116,17 @@ class ClientFactory
 
         $provider = new GenericProvider([
             'clientId'                => $oauthConfig['client_id'],
+            'clientSecret'            => $oauthConfig['client_secret'],
             'redirectUri'             => $oauthConfig['redirect_uri'],
-            'urlAuthorize'            => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/authorize",
-            'urlAccessToken'          => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/token",
-            'urlResourceOwnerDetails' => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/resource",
+            'urlAuthorize'            => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/authorize",
+            'urlAccessToken'          => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/token",
+            'urlResourceOwnerDetails' => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/resource",
         ]);
 
         try {
             // Try to get an access token using the resource owner password credentials grant.
-            $accessToken = $provider->getAccessToken('password', [
-                'username' => $username,
-                'password' => $password,
-                'resource' => $oauthConfig['resource'],
+            $accessToken = $provider->getAccessToken('client_credentials', [
+                'scope' => $oauthConfig['scope'],
             ]);
         } catch (IdentityProviderException $e) {
             // Failed to get the access token

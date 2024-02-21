@@ -25,8 +25,9 @@ return [
             'oauth2' => [
                 'redirect_uri' => env('DYNAMICS_RESOURCE'),
                 'client_id' => env('DYNAMICS_CLIENT_ID'),
+                'client_secret' => env('DYNAMICS_CLIENT_SECRET'),
                 'tenant_id' => env('DYNAMICS_TENANT_ID'),
-                'resource' => env('DYNAMICS_RESOURCE'),
+                'scope' => env('DYNAMICS_SCOPE'),
             ],
             'options' => [
                 'connect_timeout' => 5,
