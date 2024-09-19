@@ -25,14 +25,14 @@ class ClientFactory
             );
         }
 
-        if($config['auth'] === 'oauth2'){//When using the oauth connection we are not
+        if ($config['auth'] === 'oauth2') {//When using the oauth connection we are not
             $this->url($config['base_url']);
-        }else{
+        } else {
             $this->url($config['base_url'], $config['version'], "Company('{$config['company']}')");
         }
         $this
             ->options($config['options'])
-            ->auth($config['oauth2']['client_id'], $config['oauth2']['client_secret'], $config['auth'], $config['oauth2']??[])
+            ->auth($config['oauth2']['client_id'], $config['oauth2']['client_secret'], $config['auth'], $config['oauth2'] ?? [])
             ->header('Accept', 'application/json')
             ->header('Content-Type', 'application/json');
     }
@@ -97,7 +97,8 @@ class ClientFactory
             $credentials[] = 'ntlm';
         } elseif ($auth === 'oauth2') {
             $accessToken = $this->getOauth2Token($username, $password, $oauthConfig);
-            $this->header('Authorization', 'Bearer ' . $accessToken);
+            $this->header('Authorization', 'Bearer '.$accessToken);
+
             return $this;
         }
         $this->option('auth', $credentials);
@@ -115,11 +116,11 @@ class ClientFactory
         }
 
         $provider = new GenericProvider([
-            'clientId'                => $oauthConfig['client_id'],
-            'clientSecret'            => $oauthConfig['client_secret'],
-            'redirectUri'             => $oauthConfig['redirect_uri'],
-            'urlAuthorize'            => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/authorize",
-            'urlAccessToken'          => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/token",
+            'clientId' => $oauthConfig['client_id'],
+            'clientSecret' => $oauthConfig['client_secret'],
+            'redirectUri' => $oauthConfig['redirect_uri'],
+            'urlAuthorize' => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/authorize",
+            'urlAccessToken' => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/token",
             'urlResourceOwnerDetails' => "https://login.microsoftonline.com/{$oauthConfig['tenant_id']}/oauth2/v2.0/resource",
         ]);
 
@@ -139,10 +140,9 @@ class ClientFactory
         return $accessToken->getToken();
     }
 
-
     public function fabricate(): ODataClient
     {
-        $httpProvider = new ClientHttpProvider();
+        $httpProvider = new ClientHttpProvider;
         $httpProvider->setExtraOptions($this->options);
 
         return new ODataClient($this->url, null, $httpProvider);

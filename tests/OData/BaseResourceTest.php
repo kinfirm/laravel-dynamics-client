@@ -48,7 +48,7 @@ class BaseResourceTest extends TestCase
     /** @test */
     public function it_can_get_the_default_connection(): void
     {
-        $page = new Customer();
+        $page = new Customer;
 
         $this->assertEquals('::default::', $page->connection);
     }
@@ -56,7 +56,7 @@ class BaseResourceTest extends TestCase
     /** @test */
     public function it_can_get_the_default_endpoint(): void
     {
-        $page = new Customer();
+        $page = new Customer;
 
         $this->assertEquals('::customer-endpoint::', $page->endpoint);
     }

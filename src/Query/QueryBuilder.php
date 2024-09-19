@@ -97,7 +97,7 @@ class QueryBuilder
         $resource = $this->first();
 
         if ($resource === null) {
-            throw new NotFoundException();
+            throw new NotFoundException;
         }
 
         return $resource;
@@ -130,7 +130,7 @@ class QueryBuilder
         $resource = $this->find(...$values);
 
         if ($resource === null) {
-            throw new NotFoundException();
+            throw new NotFoundException;
         }
 
         return $resource;
@@ -150,7 +150,7 @@ class QueryBuilder
         return $this->newResourceInstance()->create($data);
     }
 
-    public function lazy(int $pageSize = null): LazyCollection
+    public function lazy(?int $pageSize = null): LazyCollection
     {
         return LazyCollection::make(function () use ($pageSize): Generator {
             $pageSize ??= (int) config('dynamics.connections.'.$this->connection.'.page_size');
