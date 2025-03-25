@@ -25,7 +25,7 @@ class ClientFactory
             );
         }
 
-        if ($config['auth'] === 'oauth2') {//When using the oauth connection we are not
+        if ($config['auth'] === 'oauth2') {// When using the oauth connection we are not
             $this->url($config['base_url']);
         } else {
             $this->url($config['base_url'], $config['version'], "Company('{$config['company']}')");
