@@ -17,9 +17,9 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.2|^8.3",
         "justbetter/odata-client": "^1.2",
-        "laravel/framework": "^10.0|^11.0",
+        "laravel/framework": "^10.0|^11.0|^12.0",
         "league/oauth2-client": "^2.7"
     },
     "require-dev": {
