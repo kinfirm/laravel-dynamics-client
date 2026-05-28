@@ -10,19 +10,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           ref: ${{ github.event.release.target_commitish }}
 
       - name: Generate changelog
-        uses: justbetter/generate-changelogs-action@main
+        uses: justbetter/generate-changelogs-action@d9c668aa45fca1f401ac503974ab393cfe971136 # 1.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           repository: ${{ github.repository }}
 
       - name: Commit CHANGELOG
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@3ea6ae190baf489ba007f7c92608f33ce20ef04a # v4
         with:
           branch: ${{ github.event.release.target_commitish }}
           commit_message: Update CHANGELOG
