@@ -15,18 +15,21 @@ jobs:
                 include:
                     - laravel: 10.*
                       testbench: 8.*
+                      pest: 2.*
                     - laravel: 11.*
                       testbench: 9.*
+                      pest: 3.*
                     - laravel: 12.*
                       testbench: 10.*
+                      pest: 3.*
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
             - name: Setup PHP
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # 2.37.1
               with:
                   php-version: ${{ matrix.php }}
                   extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, xdebug
@@ -35,7 +38,7 @@ jobs:
             - name: Install dependencies
               run: |
                   composer config allow-plugins.pestphp/pest-plugin true
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" pestphp/pest --no-interaction --no-update
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "pestphp/pest:${{ matrix.pest }}" --no-interaction --no-update
                   composer update --${{ matrix.stability }} --prefer-dist --no-interaction
             - name: Execute tests
               run: XDEBUG_MODE=coverage php vendor/bin/pest --coverage --min=100
