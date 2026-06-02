@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use JustBetter\DynamicsClient\Exceptions\DynamicsException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use SaintSystems\OData\ODataClient;
 
 /** @phpstan-consistent-constructor */
@@ -106,13 +107,14 @@ class ClientFactory
         return $this;
     }
 
-    public function getOauth2Token($username, $password, $oauthConfig): string
+    public function getOauth2Token(string $username, string $password, array $oauthConfig): string
     {
+        /** @var ?AccessTokenInterface $currentToken */
         $currentToken = Cache::get('dynamicsOauth');
         $currentTime = time() + 180; // Set to 3 minutes in the future to prevent token expiration during request
 
-        if (isset($currentToken->expires_on) && $currentTime <= $currentToken->expires_on) {
-            return $currentToken->access_token;
+        if ($currentToken !== null && $currentTime <= (int) $currentToken->getExpires()) {
+            return $currentToken->getToken();
         }
 
         $provider = new GenericProvider([
@@ -135,7 +137,7 @@ class ClientFactory
         }
 
         // Store the new token in the cache
-        Cache::put('dynamicsOauth', $accessToken, now()->addSeconds($accessToken->getExpires()));
+        Cache::put('dynamicsOauth', $accessToken, now()->addSeconds((int) $accessToken->getExpires()));
 
         return $accessToken->getToken();
     }

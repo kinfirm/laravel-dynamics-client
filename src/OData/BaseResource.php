@@ -158,6 +158,9 @@ abstract class BaseResource implements Arrayable, ArrayAccess
             config()->set('dynamics.connections.'.$connection.'.company', $data['company'] ?? $connection);
             config()->set('dynamics.connections.'.$connection.'.username', 'username');
             config()->set('dynamics.connections.'.$connection.'.password', 'password');
+            config()->set('dynamics.connections.'.$connection.'.auth', 'ntlm');
+            config()->set('dynamics.connections.'.$connection.'.oauth2.client_id', 'client_id');
+            config()->set('dynamics.connections.'.$connection.'.oauth2.client_secret', 'client_secret');
         }
     }
 }
